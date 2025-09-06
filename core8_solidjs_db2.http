@@ -1,0 +1,6 @@
+@core8_solidjs_db2_HostAddress = http://localhost:5084
+
+GET {{core8_solidjs_db2_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:7101",
+"RedirectUrl": "",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "/Users/reynald/My-Programs/DotnetCore/core8_solidjs_db2/clientapp/",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}

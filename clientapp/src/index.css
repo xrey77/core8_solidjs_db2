@@ -1,0 +1,119 @@
+
+#offcanvasMenu {
+  width: 50% !important;
+}
+
+.logo {
+  width: 120px !important;
+  height: 40px !important;
+}
+#staticMfaLabel {
+  font-size: 20px !important;
+}
+.user {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.w25 {
+  width: 100px;
+  margin-top: -150px !important;
+}
+.carousel-inner .carousel-item img {
+  height: auto;
+  width: auto;
+  max-width: 100% !important;
+  max-height: 580px !important;
+}
+
+#offcanvasWithBothOptions {
+  width: 60% !important;
+}
+
+.carousel-indicators [data-bs-target] {
+  box-sizing: content-box;
+  flex: 0 1 auto;
+  width: 30px !important;
+  height: 30px !important;
+  padding: 0;
+  margin-right: 3px;
+  margin-left: 3px;
+  text-indent: -999px;
+  border-radius: 60% !important;
+  cursor: pointer;
+  background-color: #fefafa;
+  background-clip: padding-box;
+  border: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  opacity: 0.9;
+  transition: opacity .6s ease;
+}
+
+.emboss-menu {
+  margin-top: 0;
+  color: rgb(255 0 0 / 80%);
+  text-shadow: 1px 2px 0 #EEE, 0 0 0 #000, 1px 2px 0 #EEE;  
+}
+
+.emboss-h {
+  margin-top: 0;
+  color: rgb(255 0 0 / 80%);
+  text-shadow: 1px 2px 0 #EEE, 0 0 0 #000, 1px 2px 0 #EEE;  
+}
+
+.forgot {
+  margin-top: 7px !important;
+  text-align: right !important;
+  color: blue;
+  font-size: 12px;
+}
+
+.footer {
+  font-size: 12px;  
+}
+
+.usr {
+  width: 150px!important;
+  height: 150px!important;
+}
+.card-width {
+  padding: 20px!important;
+}
+.btn-1 {
+  max-width: 90px!important;
+}
+.btn-2 {
+  float: left!important;
+}
+#save {
+  margin-top: 30px!important;
+}
+.qrcode1 {
+  float: right;
+  width: 200px;
+  height: 200px;
+}
+.qrcode2 {
+  float: right;
+  width: 200px;
+  height: 200px;
+  opacity: 0.3;
+}
+@media (max-width: 991.98px) { 
+  #qrcode-cap1 {
+      margin-top: 200px;
+      margin-left: -210px;
+  }
+
+  #qrcode-cap2 {
+      margin-top: 10px;
+      margin-left: -230px;
+      width: 300px;
+      text-align: justify;
+  }
+
+  .qrcode-cap3  {
+      margin-left: -230px !important;
+  }
+}
