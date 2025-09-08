@@ -44,10 +44,10 @@ namespace core8_solidjs_db2.Entities
             [Column("CRITICALSTOCKS", TypeName = "INTEGER")]
             public int CriticalStocks { get; set; }
 
-            [Column("CREATEDAT")]
+            [Column("CREATEDAT", TypeName = "TIMESTAMP")]
             public DateTime CreatedAt { get; set; }
 
-            [Column("UPDATEDAT")]
+            [Column("UPDATEDAT", TypeName = "TIMESTAMP")]
             public DateTime UpdatedAt { get; set; }
     }    
 }

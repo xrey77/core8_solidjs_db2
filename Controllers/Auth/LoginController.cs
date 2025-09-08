@@ -52,9 +52,7 @@ public class LoginController : ControllerBase
     [HttpPost("/signin")]
     public async Task<IActionResult> signin([FromBody]UserLogin model) {
             try {
-                 User xuser = await _authService.SigninUser(model.Username, model.Password_hash);
-                 if (xuser is not null) {
-
+                    var xuser = await _authService.SigninUser(model.Username, model.Password_hash);
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
                     var tokenDescriptor = new SecurityTokenDescriptor
@@ -86,9 +84,6 @@ public class LoginController : ControllerBase
                         qrcodeurl = xuser.Qrcodeurl,
                         token = tokenString
                         });
-                 } else {
-                    return BadRequest(new { statuscode = 400, message = "Username not found.."});
-                 }
             }
             catch (AppException ex)
             {

@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Options;
 using IBM.Data.Db2;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using core8_solidjs_db2.Entities;
 using core8_solidjs_db2.Helpers;
 using core8_solidjs_db2.Models;
@@ -10,17 +11,17 @@ using core8_solidjs_db2.Models;
 namespace core8_solidjs_db2.Services
 {
     public interface IProductService {
-        IEnumerable<Product> ListAll(int page);
-        // Task<IEnumerable<Product>> SearchAll(int page, string key);
+        Task<IEnumerable<Product>> ListAll(int perpage, int offset);        
+        int TotPage();
+        Task<IEnumerable<Product>> SearchAll(string key, int perpage, int offset);
         IEnumerable<Product> Dataset();
-        // Task<int> TotPageSearch(int pg, string key);
-        void CreateProduct(Product prod);
+        Task<int> TotPageSearch(string key, int perpage);
+        Task<Product> CreateProduct(Product prod);
         void ProductUpdate(Product prod);
         void ProductDelete(int id);
         void UpdateProdPicture(int id, string file);
         Product GetProductById(int id);
-
-        int TotPage();
+        Task<int> SeqId();
     }
 
     public class ProductService : IProductService
@@ -41,48 +42,33 @@ namespace core8_solidjs_db2.Services
             int totpage = (int)Math.Ceiling((float)(totrecs) / perpage);
             return totpage;
         }
-        public IEnumerable<Product> ListAll(int page)
+
+        public async Task<IEnumerable<Product>> ListAll(int perpage, int offset)
         {
-            var perpage = 5;
-            var offset = (page -1) * perpage;
-
-            var products = _context.Products                                
-                .OrderBy(b => b.Id)
-                .Skip(offset)
-                .Take(perpage)
-                .ToList();
-
-            return products;
+            var products1 = await _context.Products
+            .OrderBy(p => p.Id)
+            .Where(e => e.Id > offset) 
+            .Take(perpage)
+            .ToListAsync();
+            // var products = await _context.Products.FromSql($"SELECT * FROM REY.PRODUCTS LIMIT(5) OFFSET(5))")
+            // .ToListAsync();
+            return products1;
         }
 
-        // public async Task<int> TotPageSearch(int pg, string key) {
-        //     var perpage = 5;
-
-        //     var columnName = $"descriptions";         
-        //     var search = "%"+key+"%";
-        //     var parameter = new FromSqlRaw("searchParam", OracleDbType.Varchar2);
-        //     parameter.Value=search;
-        //     var products = await _context.Products.FromSqlRaw("SELECT * FROM \"Products\" WHERE \"descriptions\" LIKE :searchParam", parameter).ToListAsync();
-
-        //     long totalRecords = products.Count();
-
-        //     int totpage = (int)Math.Ceiling((float)(totalRecords) / perpage);
-        //     return totpage;
-        // }
+        public async Task<int> TotPageSearch(string key, int perpage) {
+            var products2 = await _context.Products.FromSql($"SELECT * FROM PRODUCTS WHERE LOWER(DESCRIPTIONS) LIKE {key} ORDER BY ID").ToListAsync();
+            long totalRecords = products2.Count();
+            int totpage = (int)Math.Ceiling((float)(totalRecords) / perpage);
+            return totpage;
+        }
 
 
-        // public async Task<IEnumerable<Product>> SearchAll(int page, string key)
-        // {
-        //     var perpage = 5;
-        //     var offset = (page -1) * perpage;
-
-        //     var columnName = $"descriptions";         
-        //     var search = "%"+key+"%";
-        //     var parameter = new FromSqlRaw("searchParam", OracleDbType.Varchar2);
-        //     parameter.Value=search;
-        //     var products = await _context.Products.FromSqlRaw("SELECT * FROM \"Products\" WHERE \"descriptions\" LIKE :searchParam", parameter).ToListAsync();
-        //     return products.Skip(offset).Take(perpage);
-        // }
+        public async Task<IEnumerable<Product>> SearchAll(string key, int perpage, int offset)
+        {
+            var products3 = await _context.Products.FromSql($"SELECT * FROM PRODUCTS WHERE LOWER(DESCRIPTIONS) LIKE {key} ORDER BY ID").ToListAsync(); 
+            var records = products3.OrderBy(p => p.Id).Where(e => e.Id > offset).Take(perpage).ToList();
+            return records;
+        }
 
         public IEnumerable<Product> Dataset()
         {
@@ -90,15 +76,40 @@ namespace core8_solidjs_db2.Services
             return products;
         }
 
-        public void CreateProduct(Product prod) {
+        public async Task<Product> CreateProduct(Product prod) {
             try {
-                Product prodDesc = _context.Products.Where(c => c.Descriptions == prod.Descriptions).FirstOrDefault();
+                var prodDesc = _context.Products.Where(c => c.Descriptions == prod.Descriptions).FirstOrDefault();
                 if (prodDesc is not null) {
                     throw new AppException("Product Description is already exists...");
                 }
 
-                _context.Products.Add(prod);
-                _context.SaveChanges();
+                var idno = 0;
+                try {
+                    var x1 = await SeqId();
+                    idno = x1 + 1;
+                } catch(Exception) {
+                    idno = 1;
+                }
+
+                var product = new Product {
+                    Id = idno,
+                    Category = prod.Category,
+                    Descriptions = prod.Descriptions,
+                    Qty = prod.Qty,
+                    Unit = prod.Unit,
+                    CostPrice = prod.CostPrice,
+                    SellPrice = prod.SellPrice,
+                    SalePrice = prod.SalePrice,
+                    AlertStocks = prod.AlertStocks,
+                    CriticalStocks = prod.CriticalStocks,
+                    ProductPicture = prod.ProductPicture,
+                    CreatedAt = prod.CreatedAt,
+                    UpdatedAt = prod.UpdatedAt
+                };
+
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+                return prod;
             } catch(Exception ex){
                 throw new AppException(ex.Message);              
             }
@@ -155,10 +166,16 @@ namespace core8_solidjs_db2.Services
 
         public Product GetProductById(int id) {
                 var prod = _context.Products.Find(id);
-                if (prod == null) {
+                if (prod is null) {
                     throw new AppException("Product does'not exists....");
                 }
                 return prod;
         }        
+
+        public async Task<int> SeqId() {
+            var prodmaxId = await _context.Products.MaxAsync(e => e.Id);
+            return prodmaxId;
+        }
+
     }
 }

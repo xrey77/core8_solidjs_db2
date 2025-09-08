@@ -44,29 +44,34 @@ namespace core8_solidjs_db2.Controllers.Users
     }  
 
         //Forgot Password
-        [HttpPut("/api/resetpassword/{email}")]
-        public IActionResult ResetPassword(string email, [FromBody]ForgotPassword model)
+        [HttpPatch("/api/resetpassword/{username}")]
+        public async Task<IActionResult> ResetPassword(string username, [FromBody]ForgotPassword model)
         {
-           model.Email = email;
-           var user = _mapper.Map<User>(model);
-            try
-            {
-                _userService.ChangePassword(user);
+            try {                
+                var user = new User {
+                    UserName = username,
+                    Password_hash = model.Password_hash,
+                    Mailtoken = model.Mailtoken
+                };
+                await _userService.ChangePassword(user);
                 return Ok(new {statuscode = 200, message = "Password successfully changed.." });
-            }
-            catch (AppException ex)
-            {
+            } catch (AppException ex) {
                 return BadRequest(new { statuscode = 400, message = ex.Message });
             }
         }
 
         [HttpPost("/api/emailtoken")]
-        public IActionResult EmailToken([FromBody]MailTokenModel model)
+        public async Task<IActionResult> EmailToken([FromBody]MailTokenModel model)
         {
            try {
-             int etoken = _userService.SendEmailToken(model.Email);             
-             _emailService.sendMailToken(model.Email,"Mail Token","Please copy or enter this token in forgot password option. " + etoken.ToString());
-            return Ok(new { etoken = etoken});
+             int etoken = await _userService.SendEmailToken(model.Email);   
+                //SET UP EMAIL SERVICE, change EmailSettings configuration in appsettings.json                       
+                try {
+                     _emailService.sendMailToken(model.Email,"Mail Token","Please copy or enter this token in forgot password option. " + etoken.ToString());
+                } catch(Exception ex) {
+                    return BadRequest(new { statuscode = 400, message = ex.Message });
+                }
+                return Ok(new {statuscode = 200, message= "Your Mailtoken has been sent to your Email Address", etoken = etoken});
            }
             catch (AppException ex)
             {

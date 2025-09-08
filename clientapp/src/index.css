@@ -10,6 +10,9 @@
 #staticMfaLabel {
   font-size: 20px !important;
 }
+.fontsize-12 {
+  font-size: 12px;;
+}
 .user {
   width: 35px;
   height: 35px;
@@ -23,7 +26,7 @@
   height: auto;
   width: auto;
   max-width: 100% !important;
-  max-height: 580px !important;
+  max-height: 620px !important;
 }
 
 #offcanvasWithBothOptions {
@@ -56,6 +59,16 @@
   text-shadow: 1px 2px 0 #EEE, 0 0 0 #000, 1px 2px 0 #EEE;  
 }
 
+.emboss-forgot {
+  width: 100% !important;
+  margin-top: 7px !important;
+  text-align: right !important;
+  color: blue;
+  font-size: 12px;
+  color: rgba(235, 38, 140, 0.8);
+  text-shadow: 1px 2px 0 #EEE, 0 0 0 #f32828, 1px 2px 0 #EEE;  
+}
+
 .emboss-h {
   margin-top: 0;
   color: rgb(255 0 0 / 80%);
@@ -63,10 +76,10 @@
 }
 
 .forgot {
+  width: 100% !important;
   margin-top: 7px !important;
   text-align: right !important;
-  color: blue;
-  font-size: 12px;
+  text-decoration: none !important;
 }
 
 .footer {
@@ -117,3 +130,37 @@
       margin-left: -230px !important;
   }
 }
+
+.txt-justify {
+  text-align: justify !important;
+}
+
+.adidas {
+  height: 450px !important;
+}
+
+@media (max-width: 991.98px) {
+ .aboutus {
+  max-height: 100% !important;
+  margin-bottom: 50px !important;
+ }
+
+ .contactus {
+  position: fixed;
+  max-height: 100% !important;
+  margin-bottom: 50px !important;
+ }
+
+ .footer {
+  bottom: -10px; /* Adjust based on footer height */
+  width: 100%;
+  transition: bottom 0.3s ease-in-out; /* Smooth transition */  
+ }
+ .footer.show {
+  position: fixed; /* or absolute */
+  bottom: -10px; /* Adjust based on footer height */
+  width: 100%;
+  transition: bottom 0.3s ease-in-out; /* Smooth transition */  
+  }
+
+ }

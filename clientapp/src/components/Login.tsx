@@ -2,27 +2,20 @@ import { Component,createSignal } from 'solid-js';
 import axios from 'axios';
 import $ from 'jquery';
 import Mfa from './Mfa';
-
-type UserSession = {
-    userId?: string;
-    userName?: string;
-    userToken?: string;
-    userRoles?: string;
-    userPic?: string;                        
-  };
+import Forgot from './Forgot';
 
 const api = axios.create({
     baseURL: "https://localhost:7101",
     headers: {'Accept': 'application/json',
               'Content-Type': 'application/json'}
-})
-
+});
 
 const Login: Component = (props) => {
     const [username, setUsername] = createSignal('');
     const [password, setPassword] = createSignal('');
     const [message, setMessage] = createSignal('');
     const [disable, setDisable] = createSignal(false);
+    const [mailToken, setMailtoken] = createSignal(0);
 
     const closeLogin = () => {
         setUsername('');
@@ -63,9 +56,6 @@ const Login: Component = (props) => {
                     $("#closeLogin").click();
                     setDisable(false);
                     setInterval(closeLogin, 1000);                    
-                    // window.setTimeout(function() {
-                    //   navigate("/", { replace: true });
-                    // }, 200);
                 }
           }, (error: any) => {
                 setMessage(error.response.data.message);
@@ -94,10 +84,9 @@ const Login: Component = (props) => {
                 </div>
                 <div class="mb-3">
                     <input type="password" required value={password()} onInput={e => setPassword(e.currentTarget.value)} class="form-control" disabled={disable()} placeholder="enter Password"/>
-                    <div class="w-100 forgot"><a href="#">forgot Password ?</a></div>
+                    <div class="w-100 emboss-forgot"><a class='forgot' href="#" data-bs-toggle="modal" data-bs-target="#staticForgot">forgot Password ?</a></div>
                 </div>
                 <button type="submit" disabled={disable()} class="btn btn-primary mx-2">login</button>
-                {/* staticMfa */}
                 <button id="loginReset" type="reset" class="btn btn-primary">reset</button>
                 <button id="mfaModal" type='button' class="btn btn-warning d-none" data-bs-toggle="modal" data-bs-target="#staticMfa">MFA</button>
             </form>
@@ -109,6 +98,7 @@ const Login: Component = (props) => {
     </div>
     </div>
     <Mfa/>
+    <Forgot/>
     </>
   );
 };

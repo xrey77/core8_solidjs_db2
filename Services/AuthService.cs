@@ -134,10 +134,5 @@ namespace core8_solidjs_db2.Services
             return usermaxId;
         }
 
-    // public void CreateResource()
-    // {
-    //     return CreatedAtAction(nameof(GetResource), new { id = 1 }, new { id = 1 });
-    // }
-
     }
 }

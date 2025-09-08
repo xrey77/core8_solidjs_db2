@@ -36,16 +36,14 @@ namespace core8_solidjs_db2.Controllers.Products
         }  
 
         [HttpGet("/api/listproducts/{page}")]
-        public IActionResult ListProducts(int page) {
-            try {                
+        public async Task<IActionResult> ListProducts(int page) {
+            try {   
                 int totalpage = _productService.TotPage();
-                var products = _productService.ListAll(page);
-                if (products != null) {
-                    var model = _mapper.Map<IList<ProductModel>>(products);
-                    return Ok(new {totpage = totalpage, page = page, products=model});
-                } else {
-                    return BadRequest(new {statuscode=400, message="No Data found."});
-                }
+                int perpage = 5;
+                int offset = (page - 1) * perpage;
+                var products = await _productService.ListAll(perpage, offset);                
+                var model = _mapper.Map<IList<ProductModel>>(products);                
+                return Ok(new {totpage = totalpage, page = page, products=model});
             } catch(AppException ex) {
                return BadRequest(new {statuscode = 400, Message = ex.Message});
             }

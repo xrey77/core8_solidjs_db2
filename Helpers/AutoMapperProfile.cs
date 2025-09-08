@@ -14,7 +14,7 @@ namespace core8_solidjs_db2.Helpers
             CreateMap<UserUpdate, User>();
             CreateMap<UserPasswordUpdate, User>();
             CreateMap<Product, ProductModel>();
-            CreateMap<ProductModel, Product>();
+             CreateMap<ProductModel, Product>();
 
         }
     }

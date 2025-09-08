@@ -19,9 +19,9 @@ namespace core8_solidjs_db2.Services
         void UpdatePicture(int id, string file);
         void UpdatePassword(User user, string password = null);
         int EmailToken(int etoken);
-        int SendEmailToken(string email);
+        Task<int> SendEmailToken(string email);
         void ActivateUser(int id);
-        void ChangePassword(User userParam);
+        Task<bool> ChangePassword(User userParam);
     }
 
     public class UserService : IUserService
@@ -43,7 +43,7 @@ namespace core8_solidjs_db2.Services
         public void Delete(int id)
         {
             var user = _context.Users.Find(id);
-            if (user != null)
+            if (user is not null)
             {
                 _context.Users.Remove(user);
                 _context.SaveChanges();
@@ -57,14 +57,12 @@ namespace core8_solidjs_db2.Services
         {
             var users = _context.Users.ToList();
             return users;
-
-            // throw new NotImplementedException();
         }
 
         public User GetById(int id)
         {
                 var user = _context.Users.Find(id);
-                if (user == null) {
+                if (user is null) {
                     throw new AppException("User does'not exists....");
                 }
                 return user;
@@ -97,7 +95,7 @@ namespace core8_solidjs_db2.Services
         public void UpdatePassword(User userParam, string password = null)
         {
             var user = _context.Users.Find(userParam.Id);
-            if (user == null)
+            if (user is null)
                 throw new AppException("User not found");
 
             if (!string.IsNullOrWhiteSpace(userParam.Password_hash))
@@ -108,7 +106,7 @@ namespace core8_solidjs_db2.Services
             DateTime now = DateTime.Now;
             user.UpdatedAt = now;
             _context.Users.Update(user);
-            _context.SaveChanges();            
+            _context.SaveChanges();                        
         }
 
 
@@ -162,47 +160,49 @@ namespace core8_solidjs_db2.Services
             _context.SaveChanges();            
        }
 
-        public int SendEmailToken(string email)
+        //CREATE MAILTOKEN AND SENT TO REGISTERED USER EMAIL
+        public async Task<int> SendEmailToken(string email)
         {
-           var user =  _context.Users.AsQueryable().FirstOrDefault(c => c.Email == email);
-           if (user == null) {
+           var user = await _context.Users.Where(c => c.Email == email).FirstOrDefaultAsync();
+           if (user is null) {
                 throw new AppException("Email Address not found...");
+           } else {
+                var etoken = EmailToken(user.Mailtoken);
+                user.Mailtoken = etoken;
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return etoken;
            }
-            var etoken = EmailToken(user.Mailtoken);
-            user.Mailtoken = etoken;
-            _context.Users.Update(user);
-            _context.SaveChanges();
-            return etoken;
         }       
 
+        //CREATE MAILTOKEN
         public int EmailToken(int etoken)
         {
+            if (etoken == 0) {
+                etoken = 1000;
+            }
             int _min = etoken;
             int _max = 9999;
             Random _rdm = new Random();
             return _rdm.Next(_min, _max);
         }
 
-        public void ChangePassword(User userParam)
+        public async Task<bool> ChangePassword(User userParam)
         {
-           var xuser =  _context.Users.AsQueryable().FirstOrDefault(c => c.Email == userParam.Email);
-           var etoken = EmailToken(xuser.Mailtoken);
-
-
-            if (xuser == null) {
-                throw new AppException("Email Address not found...");
-            }           
-            if (xuser.UserName != userParam.UserName)
-            {
-                throw new AppException("Username not found...");
+            var xuser = await _context.Users.Where(c => c.UserName == userParam.UserName).FirstOrDefaultAsync();
+            if (xuser is null) {
+                throw new AppException("Email Address not found, please user your account email...");
+            } else {
+                if (xuser.Mailtoken == userParam.Mailtoken) {
+                    xuser.Password_hash = BCrypt.Net.BCrypt.HashPassword(userParam.Password_hash);
+                    xuser.Mailtoken = 0;
+                    _context.Users.Update(xuser);
+                    _context.SaveChanges();                    
+                } else {
+                    throw new AppException("Invalid Mailtoken, please use Mailtoken that was Emailed to you....");
+                }
             }
-            if (xuser.Password_hash == null)
-            {
-                throw new AppException("Please enter Password...");
-            }
-            xuser.Password_hash = BCrypt.Net.BCrypt.HashPassword(userParam.Password_hash);
-            _context.Users.Update(xuser);
-            _context.SaveChanges();
+            return true;
         }
 
 

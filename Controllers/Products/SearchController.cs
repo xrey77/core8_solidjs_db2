@@ -37,19 +37,15 @@ namespace core8_solidjs_db2.Controllers.Products
         }  
 
         [HttpGet("/api/searchproducts/{page}/{key}")]
-        public IActionResult SearchProducts(int page, string key) {
+        public async Task<IActionResult> SearchProducts(int page, string key) {
             try {                
-                // var totalpage = await _productService.TotPageSearch(page, key);
-
-                // var products = await _productService.SearchAll(page,key);
-                // if (products.Count() > 0) {
-                //     var model = _mapper.Map<IList<ProductModel>>(products);
-                //     return Ok(new {totpage = totalpage, page = page, products=model, message=""});
-                    return Ok(new { message="Under construction.."});
-
-                // } else {
-                //     return BadRequest(new {statuscode=400, message="No Data found."});
-                // }
+                var searchKey = "%" + key + "%";
+                int perpage = 5;
+                int offset = (page -1) * perpage;
+                var totalpage = await _productService.TotPageSearch(searchKey, perpage);
+                var products = await _productService.SearchAll(searchKey, perpage, offset);
+                var model = _mapper.Map<IList<ProductModel>>(products);
+                return Ok(new {totpage = totalpage, page = page, products=model});
             } catch(AppException ex) {
                return BadRequest(new {statuscode = 400, message = ex.Message});
             }

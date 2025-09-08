@@ -13,7 +13,6 @@ using core8_solidjs_db2.Helpers;
 namespace core8_solidjs_db2.Controllers.Products
 {
     [ApiExplorerSettings(GroupName = "Add Product")]
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AddProduct : ControllerBase {
@@ -39,7 +38,7 @@ namespace core8_solidjs_db2.Controllers.Products
         }  
 
         [HttpPost("/api/addproduct")]
-        public IActionResult AddProducts(ProductModel model) {
+        public async Task<IActionResult> AddProducts(ProductModel model) {
             try {                
                 DateTime now = DateTime.Now;
                 var prods = _mapper.Map<Product>(model);
@@ -52,8 +51,10 @@ namespace core8_solidjs_db2.Controllers.Products
                 prods.SalePrice = model.SalePrice;
                 prods.AlertStocks = model.AlertStocks;
                 prods.CriticalStocks = model.CriticalStocks;
+                prods.ProductPicture = model.ProductPicture;
                 prods.CreatedAt = now;
-                _productService.CreateProduct(prods);
+                prods.UpdatedAt = now;
+                await _productService.CreateProduct(prods);
                 return Ok(new {statuscode = 200, message = "New product has been added to the database."});
             } catch(AppException ex) {
                return BadRequest(new {statuscode = 400, Message = ex.Message});

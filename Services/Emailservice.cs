@@ -1,7 +1,7 @@
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
-using Microsoft.Extensions.Configuration; // For configuration
+using Microsoft.Extensions.Configuration;
 
 namespace core8_solidjs_db2.Services
 {
