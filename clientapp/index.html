@@ -13,5 +13,12 @@
 
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" type="module"></script>
     <script src="/src/index.tsx" type="module"></script>
+    <script>
+      window.history.pushState(null, "", document.URL);
+      window.onpopstate = function() {
+          window.history.pushState(null, "", document.URL);
+      }; 
+      </script>
+  
   </body>
 </html>

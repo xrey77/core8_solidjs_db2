@@ -12,7 +12,8 @@ import Search from './components/Search';
 
 const AppRoutes = () => (
   <Routes>
-    <Route path="/" component={Home} />
+    <Route path="/" component={DashboardLayout} />
+    <Route path="/home" component={Home} />
       <Route path="/aboutus" component={Aboutus} />
       <Route path="/contactus" component={Contactus} />
       <Route path="/productlist" component={List} />

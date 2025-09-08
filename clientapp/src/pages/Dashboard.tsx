@@ -4,8 +4,8 @@ import type { Component } from 'solid-js';
 
 const Dashboard: Component = (props) => {
   return (
-    <div>
-        <h1>Dashboard</h1>
+    <div class="container">
+        <img class="dash" src="/images/dash.png" alt=""/>
     </div>
   );
 };

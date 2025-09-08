@@ -1,7 +1,10 @@
 // src/components/MyComponent.tsx
-import type { Component } from 'solid-js';
+import {  type Component } from 'solid-js';
+import '../pages/disableGoback.js';
 
 const Contactus: Component = (props) => {
+
+
   return (
     <div class="container">
       <div class="card mb-3">

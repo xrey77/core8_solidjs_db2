@@ -1,6 +1,16 @@
-import type { Component } from 'solid-js';
+import { onMount, type Component } from 'solid-js';
+import '../pages/disableGoback.js';
 
 const Aboutus: Component = (props) => {
+
+  onMount(() => {
+    window.history.pushState(null, "", document.URL);
+    window.onpopstate = function() {
+        window.history.pushState(null, "", document.URL)
+    }; 
+});
+
+
   return (
 <div class="container aboutus mb-4">
  <div class="card mb-3 mt-5">

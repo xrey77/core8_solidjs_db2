@@ -1,5 +1,5 @@
 SPA - Single Page Application
-.NET NET CORE 8 CLI, SOLIDJS-TYPESCRIPT (typescript) and IBM DB2 11.5.8.0 start-up project
+.NET NET CORE 8 CLI, SOLIDJS-TYPESCRIPT and IBM DB2 11.5.8.0 start-up project
 
 Requirements:
 1. Knowledge of C# API and SolidJs - TypeScript

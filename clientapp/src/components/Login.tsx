@@ -1,5 +1,6 @@
 import { Component,createSignal } from 'solid-js';
 import axios from 'axios';
+import { useNavigate } from "@solidjs/router";
 import $ from 'jquery';
 import Mfa from './Mfa';
 import Forgot from './Forgot';
@@ -15,13 +16,14 @@ const Login: Component = (props) => {
     const [password, setPassword] = createSignal('');
     const [message, setMessage] = createSignal('');
     const [disable, setDisable] = createSignal(false);
-    const [mailToken, setMailtoken] = createSignal(0);
+    const navigate = useNavigate();
 
     const closeLogin = () => {
         setUsername('');
         setPassword('');
         setMessage('');
         $("#loginReset").click();
+        navigate("/home", { replace: true });
         window.location.reload();
     }
 
@@ -47,11 +49,7 @@ const Login: Component = (props) => {
                     sessionStorage.setItem('USERNAME',res.data.username);
                     sessionStorage.setItem('TOKEN',res.data.token);                        
                     sessionStorage.setItem('ROLE',res.data.roles);
-                    sessionStorage.setItem('USERPIC',res.data.profilepic);
-                    
-                      setUsername('');
-                      setPassword('');
-                      setMessage('');
+                    sessionStorage.setItem('USERPIC',res.data.profilepic);                    
                     $("#loginReset").click();
                     $("#closeLogin").click();
                     setDisable(false);

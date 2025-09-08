@@ -69,6 +69,16 @@
   text-shadow: 1px 2px 0 #EEE, 0 0 0 #f32828, 1px 2px 0 #EEE;  
 }
 
+.dash {
+  visibility: visible;
+  background-color: yellow;
+  height: auto;
+  width: auto;
+  max-width: 100% !important;
+  height: 600px !important;
+  margin-left: -20px;
+}
+
 .emboss-h {
   margin-top: 0;
   color: rgb(255 0 0 / 80%);
@@ -79,6 +89,10 @@
   width: 100% !important;
   margin-top: 7px !important;
   text-align: right !important;
+  text-decoration: none !important;
+}
+
+.decoration-none {
   text-decoration: none !important;
 }
 
@@ -163,4 +177,7 @@
   transition: bottom 0.3s ease-in-out; /* Smooth transition */  
   }
 
+  .dash {
+    visibility: hidden;
+  }
  }

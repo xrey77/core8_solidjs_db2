@@ -1,4 +1,5 @@
 import { Component, JSXElement } from 'solid-js';
+import '../pages/disableGoback';
 
 interface LayoutProps {
   children: JSXElement; // Represents the content to be rendered within the layout
@@ -7,6 +8,7 @@ interface LayoutProps {
 }
 
 const Layout: Component<LayoutProps> = (props) => {
+
   return (
     <div>
       <header>

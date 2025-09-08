@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../buildMultiTargeting/core8_solidjs_db2.props" />
+</Project>

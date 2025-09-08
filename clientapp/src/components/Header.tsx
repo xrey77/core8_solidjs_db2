@@ -5,6 +5,7 @@ import Login from './Login';
 import Register from './Register';
 import { A } from '@solidjs/router';
 import { useNavigate } from "@solidjs/router";
+import '../pages/disableGoback';
 
 const Header: Component = (props) => {
   const [username, setUsername] = createSignal('');
@@ -22,20 +23,21 @@ const Header: Component = (props) => {
     }
   })
 
+
   const logout = () => {
     sessionStorage.removeItem('USERID');
     sessionStorage.removeItem('USERNAME');
     sessionStorage.removeItem('TOKEN');
     sessionStorage.removeItem('USERPIC');
     setUsername('');
-    navigate("/", { replace: true });
+    navigate("/dashboard", { replace: true });
   }
 
   return (
     <>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <A class="navbar-brand" href="/"><img class="logo" src="/images/logo.png"/></A>
+        <A class="navbar-brand" href="/dashboard"><img class="logo" src="/images/logo.png"/></A>
         <button class="navbar-toggler" type="button"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasWithBothOptions">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -60,7 +62,7 @@ const Header: Component = (props) => {
             </li>
           </ul>
 
-        <Show when={!username()}>
+        {/* <Show when={!username()}>
           <ul class="navbar-nav mr-auto">
           <li class="nav-item">
               <a class="nav-link emboss-menu" href="#" data-bs-toggle="modal" data-bs-target="#staticLogin">Login</a>
@@ -69,7 +71,7 @@ const Header: Component = (props) => {
               <a class="nav-link emboss-menu" href="#" data-bs-toggle="modal" data-bs-target="#staticRegister">Register</a>
             </li>
           </ul>
-        </Show>
+        </Show> */}
 
           <Show when={username()}>
            <ul class="navbar-nav mr-auto">
@@ -178,4 +180,6 @@ const Header: Component = (props) => {
   );
 };
 
+
 export default Header;
+
