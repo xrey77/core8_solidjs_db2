@@ -66,47 +66,13 @@ namespace core8_solidjs_db2.Controllers.Users
                             _userService.UpdatePicture(model.Id, file);                            
                         }
                         return Ok(new { statuscode = 200, message = "Profile Picture has been updated."});
-
-
-
-                        // using (var stream = new FileStream(
-                        //     newFilename, FileMode.Create, FileAccess.Write, FileShare.Write, 1024))
-                        // {
-                        //     stream.Write(imageBytes, 0, imageBytes.Length);
-                        // }
-
-                        //     var file = Request.Form.Files[0];
-                        //     var folderName = Path.Combine("Resources", "users");
-                        //     var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                        //     if (file.Length > 0)
-                        //     {
-                        //         var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                        //         var newFilename = "00" + id + ".jpeg";
-                        //         var fullPath = Path.Combine(pathToSave, newFilename);
-                        //         var dbPath = Path.Combine(folderName, fileName);
-
-                        //         using (var stream = new FileStream(fullPath, FileMode.Create))
-                        //         {
-                        //             file.CopyTo(stream);
-                        //         }
-                        //         return Ok(new { dbPath });
-                        //     }
-                        //     else
-                        //     {
-                        //         return BadRequest();
-                        //     }
-
-
-                        
                     }
                     catch (Exception ex)
                     {
                         return BadRequest(new {statuscode = 400, message =ex.Message});
                     }
-
                 }
-                return BadRequest(new { statuscode = 400, message = "Profile Picture not found."});
-
+                return NotFound(new { statuscode = 404, message = "Profile Picture not found."});
         }
     }
     

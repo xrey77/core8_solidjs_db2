@@ -81,9 +81,5 @@ public class RegisterController : ControllerBase
                 return BadRequest(new { statuscode = 400, message = ex.Message });
             }
     }
-
-
-
-}
-    
+ }    
 }

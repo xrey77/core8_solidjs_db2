@@ -69,7 +69,7 @@ namespace core8_solidjs_db2.Controllers.Products
                         return BadRequest(new {statuscode = 400, message =ex.Message});
                     }
                 }
-                return BadRequest(new { statuscode = 400, message = "Profile Picture not found."});
+                return NotFound(new { statuscode = 404, message = "Profile Picture not found."});
         }
     }    
 }

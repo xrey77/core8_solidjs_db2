@@ -52,7 +52,7 @@ namespace core8_solidjs_db2.Controllers.Auth
                         return Ok(new { statuscode=200, message = "OTP validation successfull, pls. wait.", username=user.UserName});
                     } 
                 }
-                return BadRequest(new { statuscode=400, message = "Invalid OTP Code." });
+                return NotFound(new { statuscode=404, message = "Invalid OTP Code." });
             }catch(Exception ex) {
                 return BadRequest(new { statuscode=400, message = ex.Message});
             }

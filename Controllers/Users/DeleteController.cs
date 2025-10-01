@@ -44,7 +44,7 @@ namespace core8_solidjs_db2.Controllers.Users
             try
             {
                _userService.Delete(id);
-            return Ok();
+            return Ok(new {statuscode=200, message="Deleted successfully."});
            }
             catch (AppException ex)
             {

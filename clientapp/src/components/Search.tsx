@@ -15,7 +15,7 @@ const Search: Component = (props) => {
   const [isFound, setIsfound] = createSignal(false);
   const [message, setMessage] = createSignal('');
 
-  const formatToDecimal = (xval: any): any => {
+  const toDecimal = (xval: any): any => {
     const formatter = new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 2, // Ensures at least two decimal places
       maximumFractionDigits: 2, // Limits to two decimal places
@@ -42,10 +42,11 @@ const Search: Component = (props) => {
           setIsfound(false);
           setMessage(error.response.data.message);
           setTotpage(0);
+          window.setTimeout(() => {
+            setMessage('');
+          }, 3000);
+          return;
       });    
-      window.setTimeout(() => {
-        setMessage('');
-      }, 3000);
   } 
 
   const submitSearchForm = (event: any) => {
@@ -88,6 +89,7 @@ const Search: Component = (props) => {
   return (
     <div class="container-fluid mb-9">
       <h3 class="mt-3">Search Product</h3>
+      <div class="text-left text-danger mb-2">{message()}</div>
 
       <form class="row g-3" autocomplete="off">
           <div class="col-auto">
@@ -98,7 +100,6 @@ const Search: Component = (props) => {
           </div>
 
       </form>
-      <div class="text-left text-danger mb-2">{message()}</div>
 
       <div class="card-group mb-4">
 
@@ -112,7 +113,7 @@ const Search: Component = (props) => {
               <p class="card-text">{product.descriptions}</p>
             </div>
             <div class="card-footer">
-                <p class="card-text text-danger"><span class="text-dark">PRICE :</span>&nbsp;<strong>&#8369;{formatToDecimal(product.sellPrice)}</strong></p>
+                <p class="card-text text-danger"><span class="text-dark">PRICE :</span>&nbsp;<strong>&#8369;{toDecimal(product.sellPrice)}</strong></p>
             </div>  
           </div>
           )}

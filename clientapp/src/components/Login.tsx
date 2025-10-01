@@ -34,7 +34,6 @@ const Login: Component = (props) => {
         const jsondata = JSON.stringify({ username: username(), password_hash: password() });
         api.post("/signin", jsondata)
         .then((res) => {
-            // if (res.data.statuscode == 200) {
                 setMessage(res.data.message);
                 if (res.data.qrcodeurl !== null) {
                     sessionStorage.setItem('USERID',res.data.id);

@@ -14,6 +14,5 @@ namespace core8_solidjs_db2.Models.dto
         public string Roles { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-    }
-    
+    }    
 }

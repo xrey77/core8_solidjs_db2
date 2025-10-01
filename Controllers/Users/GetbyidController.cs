@@ -55,8 +55,8 @@ namespace core8_solidjs_db2.Controllers.Users
                 });
 
             } catch(AppException ex) {
-                return BadRequest(new {
-                    statuscode = 400,
+                return NotFound(new {
+                    statuscode = 404,
                     message = ex.Message
                 });
 

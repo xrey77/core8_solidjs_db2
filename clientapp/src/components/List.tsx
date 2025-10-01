@@ -14,7 +14,7 @@ const List: Component = (props) => {
   const [prods, setProds] = createSignal([]);
   const [isfound, setIsfound] = createSignal(false);
 
-  const formatToDecimal = (xval: any): any => {
+  const toDecimal = (xval: any): any => {
     const formatter = new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 2, // Ensures at least two decimal places
       maximumFractionDigits: 2, // Limits to two decimal places
@@ -101,7 +101,7 @@ const lastPage = (event: any) => {
             <td>{product.descriptions}</td>
             <td>{product.qty}</td>
             <td>{product.unit}</td>
-            <td><strong class="text-danger">&#8369;</strong>{formatToDecimal(product.sellPrice)}</td>
+            <td><strong class="text-danger">&#8369;</strong>{toDecimal(product.sellPrice)}</td>
             </tr>
           )}
         </For>

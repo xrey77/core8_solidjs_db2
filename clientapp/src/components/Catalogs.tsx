@@ -67,7 +67,7 @@ const lastPage = (event: any) => {
     return;
 }
 
-const formatToDecimal = (xval: any): any => {
+const toDecimal = (xval: any): any => {
   const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2, // Ensures at least two decimal places
     maximumFractionDigits: 2, // Limits to two decimal places
@@ -91,7 +91,7 @@ const formatToDecimal = (xval: any): any => {
                 <p class="card-text">{product.descriptions}</p>
             </div>
             <div class="card-footer">
-                <p class="card-text text-danger"><span class="text-dark">PRICE :</span>&nbsp;<strong>&#8369;{formatToDecimal(product.sellPrice)}</strong></p>
+                <p class="card-text text-danger"><span class="text-dark">PRICE :</span>&nbsp;<strong>&#8369;{toDecimal(product.sellPrice)}</strong></p>
             </div>  
           </div>
         )}
