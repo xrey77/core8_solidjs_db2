@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/core8_solidjs_db2.props" />
-</Project>
