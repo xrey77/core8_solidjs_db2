@@ -42,13 +42,17 @@ const Mfa: Component = (props) => {
                   window.location.reload();
                 },3000);
           }, (error: any) => {
-               setMessage(error.response.data.message);
+            if (error.response) {
+                setMessage(error.response.data.message);
+            } else {
+                setMessage(error.message);
+            }
+            window.setTimeout(() => {
+                setDisable(false);
+                setMessage('');
+                setOtp('');
+              }, 3000);      
         });            
-        window.setTimeout(() => {
-          setDisable(false);
-          setMessage('');
-          setOtp('');
-        }, 3000);
     }
     
   return (

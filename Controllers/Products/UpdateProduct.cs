@@ -55,9 +55,9 @@ namespace core8_solidjs_db2.Controllers.Products
                 prods.CriticalStocks = model.CriticalStocks;
                 prods.UpdatedAt = now;
                 _productService.ProductUpdate(prods);
-                return Ok(new {statuscode = 200, message = "Product has been updated."});
+                return Ok(new {message = "Product has been updated."});
             } catch(AppException ex) {
-               return BadRequest(new {statuscode = 400, Message = ex.Message});
+               return BadRequest(new { message = ex.Message});
             }
         }
     }    

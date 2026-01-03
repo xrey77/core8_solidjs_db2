@@ -71,7 +71,6 @@ public class LoginController : ControllerBase
                     var token = tokenHandler.CreateToken(tokenDescriptor);
                     var tokenString = tokenHandler.WriteToken(token);
                     return Ok(new { 
-                        statuscode = 200,
                         message = "Login Successfull..",
                         id = xuser.Id,
                         lastname = xuser.LastName,
@@ -87,7 +86,7 @@ public class LoginController : ControllerBase
             }
             catch (AppException ex)
             {
-                return BadRequest(new {statuscode = 400, Message = ex.Message});
+                return BadRequest(new {message = ex.Message});
             }
 
     }

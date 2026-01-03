@@ -17,8 +17,7 @@ Features :
 4. Product Listings and Pagination
 5. User Account Activation via Email
 6. Auto Mapper Dependency Injection
-7. Swagger RESTful API Documentation
-   https://localhost:7101/swagger/
+7. Swagger RESTful API Documentation, https://localhost:7101/swagger/index.html
 
 If you want to test, do the following:
 1. Setup IBM DB2 11.5.8.0 Docker container

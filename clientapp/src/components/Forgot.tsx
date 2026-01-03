@@ -44,10 +44,10 @@ const Forgot: Component = (props) => {
                 }, 6000);
 
           }, (error: any) => {
-                if (error.response.data.message === undefined){
-                    setMessage(error.message + "...please modify email service and forgot controller code.");
-                } else {
+                if (error.response){
                     setMessage(error.response.data.message);
+                } else {
+                    setMessage(error.message);
                 }
                 window.setTimeout(() => {
                     setMessage('');
@@ -85,7 +85,11 @@ const Forgot: Component = (props) => {
             }, 6000);
             return;
           }, (error: any) => {
-                setMessage(error.response.data.message);
+                if (error.response){
+                    setMessage(error.response.data.message);
+                } else {
+                    setMessage(error.message);
+                }
                 window.setTimeout(() => {
                     setMessage('');
                 }, 6000);

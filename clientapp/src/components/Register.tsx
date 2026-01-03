@@ -39,7 +39,11 @@ const Register: Component = (props) => {
               }, 3000);
               return;
           }, (error: any) => {
-                setMessage(error.response.data.message);
+                if (error.response) {
+                  setMessage(error.response.data.message);
+                } else {
+                  setMessage(error.message);
+                }
                 window.setTimeout(() => {
                 setMessage('');
               }, 3000);

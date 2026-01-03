@@ -60,16 +60,15 @@ namespace core8_solidjs_db2.Controllers.Products
                             _productService.UpdateProdPicture(model.Id, file);                            
                         }
                         return Ok(new { 
-                            statuscode = 200, 
                             message = "Product Picture has been updated.",
                             productpic = file});                        
                     }
                     catch (Exception ex)
                     {
-                        return BadRequest(new {statuscode = 400, message =ex.Message});
+                        return BadRequest(new {message =ex.Message});
                     }
                 }
-                return NotFound(new { statuscode = 404, message = "Profile Picture not found."});
+                return NotFound(new { message = "Profile Picture not found."});
         }
     }    
 }

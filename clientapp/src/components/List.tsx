@@ -16,8 +16,8 @@ const List: Component = (props) => {
 
   const toDecimal = (xval: any): any => {
     const formatter = new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 2, // Ensures at least two decimal places
-      maximumFractionDigits: 2, // Limits to two decimal places
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     });
     return formatter.format(xval);
   };
@@ -33,11 +33,16 @@ const List: Component = (props) => {
           setPage(res.data.page);
           setIsfound(true);
       }, (error: any) => {
+        if (error.response) {
           setMessage(error.response.data.message);
+        } else {
+          setMessage(error.message);
+        }
+        window.setTimeout(() => {
+            setMessage('');
+        }, 3000);              
+        return;
       });
-      window.setTimeout(() => {
-        setMessage('');
-    }, 3000);              
   }
 
   onMount(() => {

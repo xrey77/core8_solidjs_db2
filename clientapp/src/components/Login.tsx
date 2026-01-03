@@ -55,7 +55,11 @@ const Login: Component = (props) => {
                     setInterval(closeLogin, 1000);                    
                 }
           }, (error: any) => {
-                setMessage(error.response.data.message);
+                if (error.response) {
+                    setMessage(error.response.data.message);
+                } else {
+                    setMessage(error.message);
+                }
                 window.setTimeout(() => {
                     setMessage('');
                     setDisable(false);

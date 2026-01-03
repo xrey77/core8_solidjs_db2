@@ -43,9 +43,9 @@ namespace core8_solidjs_db2.Controllers.Products
             try {                
                 var prod = _productService.GetProductById(id);
                 var prods = _mapper.Map<ProductModel>(prod);
-                return Ok(new {statuscode = 200, message = "Product found", product = prods});
+                return Ok(new {message = "Product found", product = prods});
             } catch(AppException ex) {
-               return BadRequest(new {statuscode = 400, Message = ex.Message});
+               return BadRequest(new {message = ex.Message});
             }
         }
     }    

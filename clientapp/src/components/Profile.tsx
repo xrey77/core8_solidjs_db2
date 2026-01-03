@@ -53,11 +53,15 @@ const Profile: Component = (props) => {
                 setProfilepic(res.data.user.profilepic);
                 setQrcodeurl(res.data.user.qrcodeurl);
           }, (error: any) => {
+            if (error.response) {
               setProfileMsg(error.response.data.message);
+            } else {
+              setProfileMsg(error.message);
+            }
+            window.setTimeout(() => {
+              setProfileMsg('');
+            }, 3000);      
         });    
-        window.setTimeout(() => {
-          setProfileMsg('');
-        }, 3000);  
   });
 
   const submitProfile = (event: Event) => {
@@ -70,12 +74,20 @@ const Profile: Component = (props) => {
     }})
     .then((res) => {
             setProfileMsg(res.data.message);
+            window.setTimeout(() => {
+              setProfileMsg('');
+            }, 3000);                    
       }, (error: any) => {
-            setProfileMsg(error.response.data.message);
+        if (error.response) {
+          setProfileMsg(error.response.data.message);
+        } else {
+          setProfileMsg(error.message);
+        }
+        window.setTimeout(() => {
+          setProfileMsg('');
+        }, 3000);           
+        return; 
     });
-    window.setTimeout(() => {
-      setProfileMsg('');
-    }, 3000);
   }
 
   const changePassword = (event: Event) => {
@@ -108,14 +120,23 @@ const Profile: Component = (props) => {
     }} )
     .then((res) => {
           setProfileMsg(res.data.message);
+          window.setTimeout(() => {
+            setProfileMsg('');
+          }, 3000);
+      
       }, (error: any) => {
-            setProfileMsg(error.response.data.message);
+        if (error.response) {
+          setProfileMsg(error.response.data.message);
+        }  else {
+          setProfileMsg(error.message);
+        }           
+        window.setTimeout(() => {
+          setProfileMsg('');
+          setPassword('');
+          setConfpassword('');
+        }, 3000);
+        return;    
     });
-    window.setTimeout(() => {
-      setProfileMsg('');
-      setPassword('');
-      setConfpassword('');
-    }, 3000);
   }
 
   const changePicture = (event: any) => {
@@ -146,11 +167,15 @@ const Profile: Component = (props) => {
 
             }, 3000);    
         }, (error: any) => {
-              setProfileMsg(error.response.data.message);
+          if (error.response) {
+            setProfileMsg(error.response.data.message);
+          }  else {
+            setProfileMsg(error.message);
+          }           
+          window.setTimeout(() => {
+            setProfileMsg('');
+          }, 3000);                  
         });
-        window.setTimeout(() => {
-          setProfileMsg('');
-        }, 3000);
   } 
 }
 
@@ -205,11 +230,15 @@ const Profile: Component = (props) => {
         setQrcodeurl(res.data.qrcodeurl);
         setProfileMsg(res.data.message);
       }, (error: any) => {
-            setProfileMsg(error.response.data.message);
-    });
-    window.setTimeout(() => {
-      setProfileMsg('');
-    }, 3000);
+        if (error.response) {
+          setProfileMsg(error.response.data.message);
+        }  else {
+          setProfileMsg(error.message);
+        }           
+        window.setTimeout(() => {
+          setProfileMsg('');
+        }, 3000);    
+      });
   }
 
   const disableMFA = (event: Event) => {
@@ -222,11 +251,16 @@ const Profile: Component = (props) => {
             setQrcodeurl('');
             setProfileMsg(res.data.message);
       }, (error: any) => {
-            setProfileMsg(error.response.data.message);
-    });
-    window.setTimeout(() => {
-      setProfileMsg('');
-    }, 3000);
+        if (error.response) {
+          setProfileMsg(error.response.data.message);
+        }  else {
+          setProfileMsg(error.message);
+        }           
+        window.setTimeout(() => {
+          setProfileMsg('');
+        }, 3000);
+    
+      });
   }
 
   return (

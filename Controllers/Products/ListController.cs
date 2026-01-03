@@ -45,7 +45,7 @@ namespace core8_solidjs_db2.Controllers.Products
                 var model = _mapper.Map<IList<ProductModel>>(products);                
                 return Ok(new {totpage = totalpage, page = page, products=model});
             } catch(AppException ex) {
-               return BadRequest(new {statuscode = 400, Message = ex.Message});
+               return BadRequest(new { message = ex.Message});
             }
         }
     }    

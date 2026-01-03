@@ -39,8 +39,12 @@ const Search: Component = (props) => {
             setMessage("keyword not found....");
           }
       }, (error: any) => {
-          setIsfound(false);
+        if (error.response) {
           setMessage(error.response.data.message);
+        } else {
+          setMessage(error.message);
+        }
+        setIsfound(false);
           setTotpage(0);
           window.setTimeout(() => {
             setMessage('');

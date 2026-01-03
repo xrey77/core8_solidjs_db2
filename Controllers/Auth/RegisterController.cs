@@ -74,11 +74,11 @@ public class RegisterController : ControllerBase
                 // and comment  user.Isactivated = 1;    
                 // _authService.CreatedAtAction(nameof(User), new { id = user.Id }, user);
 
-                return Ok(new {statuscode = 200, message = "Registration successfull, please login now."});
+                return Ok(new {message = "Registration successfull, please login now."});
             }
             catch (AppException ex)
             {
-                return BadRequest(new { statuscode = 400, message = ex.Message });
+                return BadRequest(new { message = ex.Message });
             }
     }
  }    
